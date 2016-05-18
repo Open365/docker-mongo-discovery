@@ -7,7 +7,7 @@ COPY start.sh /tmp/start.sh
 
 RUN \
 	apt-get update && \
-	apt-get install -y curl && \
+	apt-get install -y curl dnsmasq && \
 	curl -sL https://deb.nodesource.com/setup | bash - && \
 	apt-get install -y unzip nodejs npm git build-essential && \
 	chmod +x /tmp/start.sh && \
@@ -22,6 +22,7 @@ RUN \
 	rm -rf /var/lib/apt/lists/*
 
 COPY dnsmasq.conf /etc/dnsmasq.d/
+COPY dnsmasq_generic.conf /etc/dnsmasq.conf
 CMD /tmp/start.sh
 
 EXPOSE 27017
