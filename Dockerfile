@@ -21,6 +21,7 @@ RUN \
 	apt-get -y autoremove && \
 	rm -rf /var/lib/apt/lists/*
 
+COPY dnsmasq.conf /etc/dnsmasq.d/
 CMD /tmp/start.sh
 
 EXPOSE 27017
