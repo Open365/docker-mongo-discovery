@@ -9,7 +9,7 @@ RUN \
 	apt-get update && \
 	apt-get install -y curl && \
 	curl -sL https://deb.nodesource.com/setup | bash - && \
-	apt-get install -y dnsmasq unzip nodejs npm git build-essential && \
+	apt-get install -y unzip nodejs npm git build-essential && \
 	chmod +x /tmp/start.sh && \
 	curl -L https://releases.hashicorp.com/serf/0.6.4/serf_0.6.4_linux_amd64.zip -o serf.zip && \
 	unzip serf.zip && \
