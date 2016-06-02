@@ -16,6 +16,8 @@ RUN \
 	rm serf.zip && \
 	mv serf /usr/bin/serf && \
 	npm install -g eyeos-run-server eyeos-tags-to-dns eyeos-service-ready-notify-cli && \
+	npm cache clean && \
+	npm uninstall -g npm && \
 	apt-get clean && \
 	apt-get -y remove --purge curl git build-essential && \
 	apt-get -y autoremove && \
