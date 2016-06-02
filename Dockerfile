@@ -21,7 +21,11 @@ RUN \
 	apt-get clean && \
 	apt-get -y remove --purge curl git build-essential && \
 	apt-get -y autoremove && \
-	rm -rf /var/lib/apt/lists/*
+	rm -rf /var/lib/apt/lists/* && \
+	rm -rf /usr/share/man && \
+	rm -rf /usr/share/locale && \
+	rm -rf /usr/share/doc
+
 
 COPY dnsmasq.conf /etc/dnsmasq.d/
 COPY dnsmasq_generic.conf /etc/dnsmasq.conf
