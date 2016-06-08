@@ -1,28 +1,26 @@
-FROM mongo:2.6
+FROM alpine:3.4
 MAINTAINER eyeos
 
 ENV WHATAMI mongo
+ENV InstallationDir /var/service
 
-COPY start.sh /tmp/start.sh
+WORKDIR ${InstallationDir}
 
-RUN \
-	apt-get update && \
-	apt-get install -y curl dnsmasq && \
-	curl -sL https://deb.nodesource.com/setup | bash - && \
-	apt-get install -y unzip nodejs npm git build-essential && \
-	chmod +x /tmp/start.sh && \
-	curl -L https://releases.hashicorp.com/serf/0.6.4/serf_0.6.4_linux_amd64.zip -o serf.zip && \
-	unzip serf.zip && \
-	mv serf /usr/bin/serf && \
-	npm install -g npm && \
-	npm install -g eyeos-run-server eyeos-tags-to-dns eyeos-service-ready-notify-cli && \
-	apt-get clean && \
-	apt-get -y remove --purge curl git build-essential && \
-	apt-get -y autoremove && \
-	rm -rf /var/lib/apt/lists/*
-
+COPY start.sh ${InstallationDir}/start.sh
 COPY dnsmasq.conf /etc/dnsmasq.d/
 COPY dnsmasq_generic.conf /etc/dnsmasq.conf
-CMD /tmp/start.sh
+
+RUN echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
+	apk update && apk add curl git gcc g++ make python nodejs unzip dnsmasq mongodb==3.2.4-r3 && \
+	chmod +x ${InstallationDir}/start.sh && \
+	curl -L https://releases.hashicorp.com/serf/0.6.4/serf_0.6.4_linux_amd64.zip -o serf.zip && \
+	unzip serf.zip && mv serf /usr/bin/serf && mkdir -p ${HOME} && \
+	npm install -g node-gyp eyeos-run-server eyeos-tags-to-dns eyeos-service-ready-notify-cli && \
+	npm cache clean && rm -rf $HOME/.npm && \
+	apk del curl git gcc g++ make python unzip && rm -r /etc/ssl /var/cache/apk/* /tmp/*
+
+CMD ${InstallationDir}/start.sh
+
+VOLUME /data/db
 
 EXPOSE 27017
