@@ -11,7 +11,7 @@ COPY dnsmasq.conf /etc/dnsmasq.d/
 COPY dnsmasq_generic.conf /etc/dnsmasq.conf
 
 RUN echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-	apk update && apk add curl git gcc g++ make python nodejs unzip dnsmasq mongodb@3.2.4 && \
+	apk update && apk add curl git gcc g++ make python nodejs unzip dnsmasq mongodb==3.2.4-r3 && \
 	chmod +x ${InstallationDir}/start.sh && \
 	curl -L https://releases.hashicorp.com/serf/0.6.4/serf_0.6.4_linux_amd64.zip -o serf.zip && \
 	unzip serf.zip && mv serf /usr/bin/serf && \
