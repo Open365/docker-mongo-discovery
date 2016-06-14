@@ -19,7 +19,7 @@ RUN echo http://dl-4.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositorie
 	npm cache clean && rm -rf $HOME/.npm && \
 	apk del curl git gcc g++ make python unzip && rm -r /etc/ssl /var/cache/apk/* /tmp/*
 
-CMD ${InstallationDir}/start.sh
+CMD ["./start.sh"]
 
 VOLUME /data/db
 
